@@ -1,0 +1,24 @@
+{
+  "name": "action.collect-build-metrics",
+  "version": "0.0.1",
+  "description": "Currently being used to test konsentus/action.slack-notify",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "ncc build index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Konsentus/test.jon.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Konsentus/test.jon/issues"
+  },
+  "homepage": "https://github.com/Konsentus/test.jon#readme",
+  "dependencies": {
+    "@octokit/action": "^2.7.1",
+    "lodash": "^4.17.15",
+    "moment": "^2.26.0"
+  },
+  "devDependencies": {}
+}

@@ -1,0 +1,30 @@
+name: Push workflow for development branches (feature/hotfix)
+on:
+  push:
+    branches:
+      - 'feature/**'
+      - 'hotfix/**'
+
+env:
+  SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
+jobs:
+  snyk_node:
+    name: Scan Node dependencies with Snyk
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Run Snyk Scan
+        id: snyk_scan
+        uses: konsentus/action.snyk/node@master
+        with:
+          options: '--severity-threshold=high'
+
+      - name: Store Snyk results
+        if: failure()
+        uses: actions/upload-artifact@v1
+        with:
+          name: snyk-node-dependancy-results
+          path: ${{ steps.snyk_scan.outputs.results }}

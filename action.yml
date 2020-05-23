@@ -1,0 +1,13 @@
+name: 'Collect Github Build Metrcis'
+description: 'Uses github API to collect build metrics'
+branding:
+  icon: bar-chart
+  color: blue
+inputs:
+  debug:
+    description: 'Turns on debugging for detailed logs'
+    required: false
+    default: false
+runs:
+  using: 'node14'
+  main: 'dist/index.js'
