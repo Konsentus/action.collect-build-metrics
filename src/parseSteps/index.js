@@ -1,8 +1,8 @@
 const { convertToUtc, dateDiff } = require('../helpers');
 
-const parseStep = unparsedStep => {
-  const { name, status, number, started_at, completed_at, conclusion } = unparsedStep;
-  const parsedStep = {
+const parseSteps = unparsedSteps => {
+  const { name, status, number, started_at, completed_at, conclusion } = unparsedSteps;
+  const parsedSteps = {
     name,
     status,
     conclusion,
@@ -11,7 +11,7 @@ const parseStep = unparsedStep => {
     completed_at: convertToUtc(completed_at),
     total_time_ms: dateDiff(started_at, completed_at),
   };
-  return parsedStep;
+  return parsedSteps;
 };
 
-module.exports = { parseStep };
+module.exports = { parseSteps };

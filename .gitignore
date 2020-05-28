@@ -1,3 +1,7 @@
+# Repo specific
+build-metrics.json
+
+# General
 node_modules/
 .vscode/
 .DS_Store

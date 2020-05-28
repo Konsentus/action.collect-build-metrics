@@ -1,5 +1,4 @@
 const { Octokit } = require('@octokit/action');
-const core = require('@actions/core');
 const fs = require('fs');
 const { buildOutput } = require('./src');
 
@@ -14,7 +13,7 @@ const run = async () => {
   const octokit = new Octokit();
 
   // See https://developer.github.com/v3/actions/workflow-jobs/
-  const { data } = await octokit.request('GET /repos/:owner/:repo/actions/runs/:run_id/jobs', {
+  const { data } = await octokit.actions.listJobsForWorkflowRun({
     owner,
     repo,
     run_id: runId,
