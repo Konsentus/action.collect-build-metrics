@@ -1,5 +1,5 @@
 const { convertToUtc, dateDiff } = require('../helpers');
-const { parseStep } = require('../parseStep');
+const { parseSteps } = require('../parseSteps');
 
 const parseJob = unparsedJob => {
   const { name, started_at, completed_at, steps, html_url, run_id } = unparsedJob;
@@ -11,7 +11,7 @@ const parseJob = unparsedJob => {
     job_name: name,
     url: html_url,
     run_id,
-    steps: steps.map(step => parseStep(step)), //
+    steps: parseSteps(steps), //
   };
 
   return parsedJob;

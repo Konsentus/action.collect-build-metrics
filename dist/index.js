@@ -187,7 +187,7 @@ const run = async () => {
   const octokit = new Octokit();
 
   // See https://developer.github.com/v3/actions/workflow-jobs/
-  const { data } = await octokit.request('GET /repos/:owner/:repo/actions/runs/:run_id/jobs', {
+  const { data } = await octokit.actions.listJobsForWorkflowRun({
     owner,
     repo,
     run_id: runId,
@@ -19840,6 +19840,30 @@ module.exports = parse;
 
 /***/ }),
 
+/***/ 461:
+/***/ (function(module, __unusedexports, __webpack_require__) {
+
+const { convertToUtc, dateDiff } = __webpack_require__(483);
+
+const parseSteps = unparsedSteps => {
+  const { name, status, number, started_at, completed_at, conclusion } = unparsedSteps;
+  const parsedSteps = {
+    name,
+    status,
+    conclusion,
+    number,
+    started_at: convertToUtc(started_at),
+    completed_at: convertToUtc(completed_at),
+    total_time_ms: dateDiff(started_at, completed_at),
+  };
+  return parsedSteps;
+};
+
+module.exports = { parseSteps };
+
+
+/***/ }),
+
 /***/ 483:
 /***/ (function(module, __unusedexports, __webpack_require__) {
 
@@ -26934,7 +26958,7 @@ module.exports = require("util");
 /***/ (function(module, __unusedexports, __webpack_require__) {
 
 const { convertToUtc, dateDiff } = __webpack_require__(483);
-const { parseStep } = __webpack_require__(743);
+const { parseSteps } = __webpack_require__(461);
 
 const parseJob = unparsedJob => {
   const { name, started_at, completed_at, steps, html_url, run_id } = unparsedJob;
@@ -26946,7 +26970,7 @@ const parseJob = unparsedJob => {
     job_name: name,
     url: html_url,
     run_id,
-    steps: steps.map(step => parseStep(step)), //
+    steps: parseSteps(steps), //
   };
 
   return parsedJob;
@@ -30205,30 +30229,6 @@ module.exports = function(fn) {
 	try { return fn() } catch (e) {}
 
 }
-
-/***/ }),
-
-/***/ 743:
-/***/ (function(module, __unusedexports, __webpack_require__) {
-
-const { convertToUtc, dateDiff } = __webpack_require__(483);
-
-const parseStep = unparsedStep => {
-  const { name, status, number, started_at, completed_at, conclusion } = unparsedStep;
-  const parsedStep = {
-    name,
-    status,
-    conclusion,
-    number,
-    started_at: convertToUtc(started_at),
-    completed_at: convertToUtc(completed_at),
-    total_time_ms: dateDiff(started_at, completed_at),
-  };
-  return parsedStep;
-};
-
-module.exports = { parseStep };
-
 
 /***/ }),
 
