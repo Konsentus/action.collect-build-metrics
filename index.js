@@ -1,6 +1,7 @@
 const { Octokit } = require('@octokit/action');
 const fs = require('fs');
-const { buildOutput } = require('./src');
+const core = require('@actions/core');
+const { buildOutput, sendToDatadog, fetchWorkflow } = require('./src');
 
 const run = async () => {
   const [owner, repo] = process.env.GITHUB_REPOSITORY.split('/');
@@ -9,19 +10,35 @@ const run = async () => {
   const branch = process.env.GITHUB_REF.split('/')[2];
   const sha = process.env.GITHUB_SHA;
   const eventType = process.env.GITHUB_EVENT_NAME;
+  const workflowName = process.env.GITHUB_WORKFLOW;
+  const sendMetricsToDatadog = core.getInput('send_to_dd');
+  const datadogLocation = core.getInput('datadog_url_location');
+  const saveMetricsFs = core.getInput('save_to_fs');
+  const fileName = core.getInput('filename');
+  const datadogApiKey = process.env.DATADOG_TOKEN;
 
   const octokit = new Octokit();
 
-  // See https://developer.github.com/v3/actions/workflow-jobs/
-  const { data } = await octokit.actions.listJobsForWorkflowRun({
+  const jobData = await fetchWorkflow(octokit, { owner, repo, runId });
+
+  buildMetrics = buildOutput(jobData, {
     owner,
     repo,
-    run_id: runId,
+    actor,
+    runId,
+    branch,
+    sha,
+    eventType,
+    workflowName,
   });
 
-  metrics = buildOutput(data.jobs, { owner, repo, actor, runId, branch, sha, eventType });
+  if (sendMetricsToDatadog === 'true') {
+    sendToDatadog(JSON.stringify(buildMetrics), datadogLocation, datadogApiKey);
+  }
 
-  fs.writeFileSync('build-metrics.json', JSON.stringify(metrics));
+  if (saveMetricsFs === 'true') {
+    fs.writeFileSync(fileName, JSON.stringify(buildMetrics));
+  }
 };
 
 run();

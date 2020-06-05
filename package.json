@@ -16,9 +16,10 @@
   },
   "homepage": "https://github.com/Konsentus/test.jon#readme",
   "dependencies": {
+    "@actions/core": "^1.2.4",
     "@octokit/action": "^2.7.1",
     "@octokit/rest": "^17.9.2",
-    "lodash": "^4.17.15",
+    "axios": "^0.19.2",
     "moment": "^2.26.0"
   },
   "devDependencies": {}

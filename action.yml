@@ -1,13 +1,21 @@
-name: 'Collect Github Build Metrcis'
-description: 'Uses github API to collect build metrics'
+name: 'Collect build metrics'
+description: 'Will collect build metrics and return as an array of objects, will allow you to save to file system of send to Datadog'
 branding:
   icon: bar-chart
-  color: blue
+  color: light-blue
 inputs:
-  debug:
-    description: 'Turns on debugging for detailed logs'
+  send_to_dd:
+    description: 'Boolean to send metrics to datadog'
     required: false
-    default: false
+  datadog_url_location:
+    description: 'eu or com depending on where your datadog endpoint is located (EU or US respectively). Required if no `send_to_dd` provided.'
+    required: false
+  save_to_fs:
+    description: 'Boolean to save metrics to filesystem'
+    required: false
+  filename:
+    description: 'The name of the file to save metrics with. Required if no `save_to_fs` provided.'
+    required: false
 runs:
   using: 'node12'
   main: 'dist/index.js'
