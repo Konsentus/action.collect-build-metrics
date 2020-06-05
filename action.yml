@@ -1,5 +1,5 @@
 name: 'Collect build metrics'
-description: 'Will collect build metrics and return as an array of objects'
+description: 'Will collect build metrics and return as an array of objects, will allow you to save to file system of send to Datadog'
 branding:
   icon: bar-chart
   color: light-blue

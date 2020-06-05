@@ -42,7 +42,7 @@ const buildOutput = (jobs, { repo, owner, actor, runId, branch, sha, eventType, 
 
   finishedJobs.forEach(job => {
     job['steps'].forEach(step => {
-      let output = {
+      result.push({
         repo,
         owner,
         actor,
@@ -53,8 +53,7 @@ const buildOutput = (jobs, { repo, owner, actor, runId, branch, sha, eventType, 
         job: parseJob(job),
         step: parseStep(step),
         workflow_name: workflowName,
-      };
-      result.push(output);
+      });
     });
   });
 

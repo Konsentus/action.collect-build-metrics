@@ -1,4 +1,3 @@
-const lodash = require('lodash');
 const moment = require('moment');
 
 /**
@@ -21,7 +20,7 @@ const dateDiff = (startDate, endDate) => {
  * @param {Object[]} jobs The array of unparsed jobs.
  * @returns {Object[]} An array with only finished jobs.
  */
-const filterFinishedJobs = jobs => lodash.filter(jobs, { status: 'completed' });
+const filterFinishedJobs = jobs => jobs.filter(job => job.status === 'completed');
 
 /**
  * converts a date to UTC format.
@@ -29,6 +28,6 @@ const filterFinishedJobs = jobs => lodash.filter(jobs, { status: 'completed' });
  * @param {Date} date The start date
  * @returns {Date} A UTC datetime with format 'YYYY-M-DD HH:mm:ss.SSS'
  */
-const convertToUtc = date => moment.utc(date).format('YYYY-M-DD HH:mm:ss.SSS');
+const convertToUtc = date => moment.utc(date);
 
 module.exports = { dateDiff, filterFinishedJobs, convertToUtc };

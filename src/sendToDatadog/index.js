@@ -1,4 +1,4 @@
-const request = require('request');
+const axios = require('axios');
 const core = require('@actions/core');
 
 /**
@@ -8,20 +8,21 @@ const core = require('@actions/core');
  * @param {string} datadogLocation - EU or COM depending on your Datadog location
  * @param {string} datadogToken - The API key for datadog
  */
-const sendToDatadog = (data, datadogLocation, datadogToken) => {
-  const options = {
-    method: 'POST',
-    url: `https://http-intake.logs.datadoghq.${datadogLocation}/v1/input/?ddsource=postman&service=github-actions`,
-    headers: {
-      'DD-API-KEY': datadogToken,
-      'Content-Type': ['application/json', 'text/plain'],
-    },
-    body: data,
-  };
-  request(options, function (error, response) {
-    if (error) throw core.setFailed(`Action failed with error ${error}`);
-    core.info(response.body);
-  });
+const sendToDatadog = async (data, datadogLocation, datadogToken) => {
+  try {
+    await axios.post(
+      `https://http-intake.logs.datadoghq.${datadogLocation}/v1/input/?ddsource=postman&service=github-actions`,
+      data,
+      {
+        headers: {
+          'DD-API-KEY': datadogToken,
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+  } catch (err) {
+    core.setFailed(`Action failed with error ${err}`);
+  }
 };
 
 module.exports = { sendToDatadog };
