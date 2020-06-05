@@ -777,7 +777,7 @@ const core = __webpack_require__(310);
 const sendToDatadog = async (data, datadogLocation, datadogToken) => {
   try {
     await axios.post(
-      `https://http-intake.logs.datadoghq.${datadogLocation}/v1/input/?ddsource=postman&service=github-actions`,
+      `https://http-intake.logs.datadoghq.${datadogLocation}/v1/input/?service=github-actions`,
       data,
       {
         headers: {
