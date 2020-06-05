@@ -18,8 +18,8 @@ const dateDiff = (startDate, endDate) => {
  * Removes any jobs that havent finished.
  *  Because this action runs at the end of a workflow, this job is never completed, we want to remove this job from the output as to keep our results clean.
  *
- * @param {import('../parseJob/index').UnparseJob[]} jobs The array of unparsed jobs.
- * @returns {import('../parseJob/index').UnparseJob[]} An array with only finished jobs.
+ * @param {Object[]} jobs The array of unparsed jobs.
+ * @returns {Object[]} An array with only finished jobs.
  */
 const filterFinishedJobs = jobs => lodash.filter(jobs, { status: 'completed' });
 

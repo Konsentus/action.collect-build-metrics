@@ -34107,8 +34107,8 @@ const dateDiff = (startDate, endDate) => {
  * Removes any jobs that havent finished.
  *  Because this action runs at the end of a workflow, this job is never completed, we want to remove this job from the output as to keep our results clean.
  *
- * @param {import('../parseJob/index').UnparseJob[]} jobs The array of unparsed jobs.
- * @returns {import('../parseJob/index').UnparseJob[]} An array with only finished jobs.
+ * @param {Object[]} jobs The array of unparsed jobs.
+ * @returns {Object[]} An array with only finished jobs.
  */
 const filterFinishedJobs = jobs => lodash.filter(jobs, { status: 'completed' });
 
@@ -61705,6 +61705,20 @@ const { parseJob } = __webpack_require__(670);
 const { parseStep } = __webpack_require__(743);
 
 /**
+ * @typedef {Object} BuildOutput
+ * @property {string} repo
+ * @property {string} owner
+ * @property {string} actor
+ * @property {string} run_id
+ * @property {string} branch
+ * @property {string} sha
+ * @property {string} eventType
+ * @property {import('../parseJob/index').ParsedJob[]} job
+ * @property {import('../parseStep/index').ParsedStep[]} step
+ * @property {string} workflowName
+ */
+
+/**
  * @typedef {Object} RepoMetaData
  * @property {string} repo
  * @property {string} owner
@@ -61719,9 +61733,9 @@ const { parseStep } = __webpack_require__(743);
 /**
  * builds the metrics into a useable output
  *
- * @param {import('../parseJob/index').UnparsedJob[]} jobs An array of unparsed jobs.
+ * @param {Object[]} jobs An array of complex objects containing job information - see https://developer.github.com/v3/actions/workflow-jobs/ for reference.
  * @param {RepoMetaData} options Meta data
- * @returns {BuildOutput[]} An array
+ * @returns {BuildOutput[]} An array of BuildOutput
  */
 const buildOutput = (jobs, { repo, owner, actor, runId, branch, sha, eventType, workflowName }) => {
   const finishedJobs = filterFinishedJobs(jobs);
