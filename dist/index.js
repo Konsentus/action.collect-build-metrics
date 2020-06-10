@@ -246,9 +246,12 @@ const run = async () => {
   const [owner, repo] = process.env.GITHUB_REPOSITORY.split('/');
   const actor = process.env.GITHUB_ACTOR;
   const runId = process.env.GITHUB_RUN_ID;
-  const branch = process.env.GITHUB_REF.split('/')[2];
-  const sha = process.env.GITHUB_SHA;
   const eventType = process.env.GITHUB_EVENT_NAME;
+  const branch =
+    eventType === 'pull_request'
+      ? process.env.GITHUB_HEAD_REF.replace('refs/heads/', '')
+      : process.env.GITHUB_REF.replace('refs/heads/', '');
+  const sha = process.env.GITHUB_SHA;
   const workflowName = process.env.GITHUB_WORKFLOW;
   const sendMetricsToDatadog = core.getInput('send_to_dd');
   const datadogLocation = core.getInput('datadog_url_location');
