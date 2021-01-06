@@ -19,7 +19,7 @@
     "@actions/core": "^1.2.4",
     "@octokit/action": "^2.7.1",
     "@octokit/rest": "^17.9.2",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "moment": "^2.26.0"
   },
   "devDependencies": {}
