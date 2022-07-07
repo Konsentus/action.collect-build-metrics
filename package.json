@@ -20,7 +20,7 @@
     "@octokit/action": "^2.7.1",
     "@octokit/rest": "^17.9.2",
     "axios": "^0.19.2",
-    "moment": "^2.26.0"
+    "moment": "^2.29.4"
   },
   "devDependencies": {}
 }
